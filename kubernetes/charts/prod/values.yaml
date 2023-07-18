@@ -8,7 +8,7 @@ namePrefix: prod-
 tailoredForPrefix: ""
 
 image:
-  repository: cr.mesoor.com/production/transmitter3
+  repository: cr.mesoor.com/production/weixin-java-cp-demo
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""

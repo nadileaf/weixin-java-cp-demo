@@ -37,12 +37,6 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
-            - name: prometheus
-              containerPort: 9100
-              protocol: TCP
-            - name: live
-              containerPort: 9200
-              protocol: TCP
           env:
             - name: transmitter.db.host
               valueFrom:
