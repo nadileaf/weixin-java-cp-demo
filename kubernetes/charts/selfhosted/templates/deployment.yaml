@@ -1,0 +1,110 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "standard.fullname" . }}
+  labels:
+    {{- include "standard.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "standard.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "standard.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "standard.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+            - name: prometheus
+              containerPort: 9100
+              protocol: TCP
+            - name: live
+              containerPort: 9200
+              protocol: TCP
+          env:
+            - name: transmitter.db.host
+              valueFrom:
+                secretKeyRef:
+                  name: middleware-config
+                  key: PG_TRANSMITTER_HOST
+            - name: transmitter.db.database
+              valueFrom:
+                secretKeyRef:
+                  name: middleware-config
+                  key: PG_TRANSMITTER_DATABASE
+            - name: transmitter.db.portNumber
+              valueFrom:
+                secretKeyRef:
+                  name: middleware-config
+                  key: PG_TRANSMITTER_PORT
+            - name: transmitter.db.url
+              value: "jdbc:postgresql://$(transmitter.db.host):$(transmitter.db.portNumber)/$(transmitter.db.database)"
+            - name: transmitter.db.user
+              valueFrom:
+                secretKeyRef:
+                  name: middleware-config
+                  key: PG_TRANSMITTER_USER
+            - name: transmitter.db.password
+              valueFrom:
+                secretKeyRef:
+                  name: middleware-config
+                  key: PG_TRANSMITTER_PASSWORD
+            - name: event.provider
+              value: kafka
+            - name: kafka.producer.bootstrap.servers
+              valueFrom:
+                secretKeyRef:
+                  name: middleware-config
+                  key: KAFKA_URL
+#            - name: schema-editor.redis
+#              value: redis://{{ .Values.namePrefix }}schema-editor-redis:6379
+            - name: mesoor.transmitter-schema.url
+              value: http://{{ .Values.namePrefix }}transmitter-schema-registry:9000
+            - name: tenant.tenantTypes.api
+              value: http://{{ .Values.namePrefix }}tip-user/tenantTypes/tenantIdMappings
+            - name: application.env
+              value: prod
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

@@ -6,37 +6,12 @@ logging:
     com.github.binarywang.demo.wx.cp: DEBUG
     me.chanjar.weixin: DEBUG
 
-#多实例配置
-spring:
-  redis:
-    database: 0
-    host: xx.xx.xx.xx
-    password: xxxx
-    port: 6380
-wechat:
-  cp:
-    appConfigs:
-      - agentId: 1000001
-        corpId: xxxx
-        secret: 1111
-        token: 111
-        aesKey: 111
-      - agentId: 1000002
-        corpId: xxxx
-        secret: 1111
-        token: 111
-        aesKey: 111
-
 #单实例配置
 wechat:
   cp:
-    corpId: 111
+    corpId: wwc43b5754a0844416
     appConfigs:
-      - agentId: 1000001
-        secret: 1111
-        token: 111
-        aesKey: 111
-      - agentId: 1000002
-        secret: 1111
-        token: 111
-        aesKey: 111
+      - agentId: 1000046
+        secret: N-xNIh8th-sSWELTryG-Vtab7YtIYVcgLMhIpWqhLW0
+        token: OdZwurj8Y8xWyCSON75VaEvqt0MPw1bm
+        aesKey: tn4GgC1HOdY2Pe32uL3x3yRTvUURb0kw6ZNviPsMODI
