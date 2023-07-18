@@ -6,12 +6,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
 @Data
-//@ConfigurationProperties(prefix = "wechat.cp")
+@ConfigurationProperties(prefix = "wechat.cp")
 public class WxCpProperties {
   /**
    * 设置企业微信的corpId

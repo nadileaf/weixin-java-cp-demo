@@ -14,14 +14,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.PostConstruct;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * 单实例配置
  *
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
-//@Configuration
-//@EnableConfigurationProperties(WxCpProperties.class)
+@Configuration
+@EnableConfigurationProperties(WxCpProperties.class)
 public class WxCpConfiguration {
     private LogHandler logHandler;
     private NullHandler nullHandler;
