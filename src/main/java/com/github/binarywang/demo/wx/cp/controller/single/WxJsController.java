@@ -1,6 +1,7 @@
 package com.github.binarywang.demo.wx.cp.controller.single;
 
 import com.github.binarywang.demo.wx.cp.config.single.WxCpConfiguration;
+import lombok.RequiredArgsConstructor;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.cp.api.WxCpService;
@@ -16,10 +17,9 @@ import java.util.Map;
 /**
  * @author <a href="https://github.com/0katekate0">Wang_Wong</a>
  */
-//@RestController
-//@RequiredArgsConstructor
-//@RequestMapping("/wx/cp/js/{corpId}/{agentId}/getJsConf")
-
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/wx/cp/js/{corpId}/{agentId}/getJsConf")
 public class WxJsController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 

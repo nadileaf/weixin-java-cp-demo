@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 /**
  * @author <a href="https://github.com/binarywang">Binary Wang</a>
  */
-//@RestController
-//@RequestMapping("/wx/cp/portal/{agentId}")
+@RestController
+@RequestMapping("/wx/cp/portal/{agentId}")
 public class WxPortalController {
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
